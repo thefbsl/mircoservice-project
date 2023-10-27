@@ -1,5 +1,6 @@
 package com.arman.employeeservice.controller;
 
+import com.arman.employeeservice.dto.ApiResponse;
 import com.arman.employeeservice.dto.EmployeeDto;
 import com.arman.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,9 @@ public class EmployeeController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long employeeId){
-        EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
-        return ResponseEntity.ok(employeeDto);
+    public ResponseEntity<ApiResponse> getEmployeeById(@PathVariable("id") Long employeeId){
+        ApiResponse apiResponse = employeeService.getEmployeeById(employeeId);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("email/{email}")
