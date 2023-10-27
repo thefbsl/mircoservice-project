@@ -2,9 +2,9 @@ package com.arman.employeeservice.service.impl;
 
 import com.arman.employeeservice.dto.EmployeeDto;
 import com.arman.employeeservice.entity.Employee;
+import com.arman.employeeservice.exception.ResourceNotFoundException;
 import com.arman.employeeservice.repository.EmployeeRepository;
 import com.arman.employeeservice.service.EmployeeService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with " + employeeId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
 
         return modelMapper.map(employee, EmployeeDto.class);
     }

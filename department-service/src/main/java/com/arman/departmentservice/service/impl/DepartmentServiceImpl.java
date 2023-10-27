@@ -2,6 +2,7 @@ package com.arman.departmentservice.service.impl;
 
 import com.arman.departmentservice.dto.DepartmentDto;
 import com.arman.departmentservice.entity.Department;
+import com.arman.departmentservice.exception.ResourceNotFoundException;
 import com.arman.departmentservice.repository.DepartmentRepository;
 import com.arman.departmentservice.service.DepartmentService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
-        Department department = departmentRepository.findByDepartmentCode(departmentCode);
+        Department department = departmentRepository.findByDepartmentCode(departmentCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Department", "code", departmentCode));
         DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
         return departmentDto;
     }
