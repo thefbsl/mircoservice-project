@@ -1,5 +1,6 @@
 package com.arman.employeeservice.service.impl;
 
+import com.arman.employeeservice.dto.ApiResponseDto;
 import com.arman.employeeservice.dto.EmployeeDto;
 import com.arman.employeeservice.entity.Employee;
 import com.arman.employeeservice.exception.ResourceNotFoundException;
@@ -22,11 +23,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long employeeId) {
+    public ApiResponseDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-
-        return modelMapper.map(employee, EmployeeDto.class);
+        EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
+        return new ApiResponseDto();
     }
 
     @Override
