@@ -1,10 +1,12 @@
 package com.arman.employeeservice.service.impl;
 
 import com.arman.employeeservice.dto.ApiResponseDto;
+import com.arman.employeeservice.dto.DepartmentDto;
 import com.arman.employeeservice.dto.EmployeeDto;
 import com.arman.employeeservice.entity.Employee;
 import com.arman.employeeservice.exception.ResourceNotFoundException;
 import com.arman.employeeservice.repository.EmployeeRepository;
+import com.arman.employeeservice.service.ApiClient;
 import com.arman.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
     private ModelMapper modelMapper;
+    private ApiClient apiClient;
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
         Employee employee = modelMapper.map(employeeDto, Employee.class);
@@ -27,7 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
-        return new ApiResponseDto();
+        DepartmentDto departmentDto = apiClient.getDepartmentByCode(employee.getDepartmentCode());
+        return new ApiResponseDto(employeeDto, departmentDto);
     }
 
     @Override
